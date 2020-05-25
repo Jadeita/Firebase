@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Editar Usuario</title>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!--<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script> -->
+</head>
+<body>
+	<h1 id="holaMundo"></h1>
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script>
+  // Your web app's Firebase configuration
+	var firebaseConfig = {
+		apiKey: "AIzaSyCv4qk20_b3l7J4G_7T9zWh5zkkCHQtsQ4",
+		 authDomain: "tareafb-73d99.firebaseapp.com",
+		 databaseURL: "https://tareafb-73d99.firebaseio.com",
+		 projectId: "tareafb-73d99",
+		 storageBucket: "tareafb-73d99.appspot.com",
+		 messagingSenderId: "349891547982",
+		 appId: "1:349891547982:web:2cdaa29158414d285f041f"
+	   };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+// Se conecta con la base de datos de Firebase
+var dataDB = firebase.database().ref('Guisados');
+
+ var userId= window.name;
+
+    var cantidad, nombre, stock;
+    var Guisado={};
+
+    // Buscamos el artículo.
+    dataDB.child(userId).once('value',function(datos)
+    {
+        usuario=datos.val();
+
+        nombre= guisado.cantidad;
+        correo= guisado.nombre;
+        telefono=guisado.stock;
+
+        $('#cantidad').val(cantidad);
+        $('#nombre').val(nombre);
+        $('#stock').val(stock);
+    });
+
+function actualizar() {
+  // Se asigna a una variable cada elemento input con su ID
+var cantidad = document.getElementById('cantidad');
+var nombre = document.getElementById('nombre');
+var stock = document.getElementById('stock');
+
+dataDB.child(userId).update({
+		cantidad: cantidad.value,
+		nombre: nombre.value,
+		stock: stock.value
+	});
+
+    alert('Guisado actualizado');
+}
+</script>
+<h1>Editar Guisado</h1>
+
+  <form action="" method="post">
+    <input id="cantidad" class="input" type="text" value="" placeholder="cantidad" required /><br />
+    <input id="nombre" class="input" type="nombre" value="" placeholder="nombre" required /><br />
+  <input id="stock" class="input" type="stock" value="" maxlength="10" placeholder="stock" required /><br />
+  <button id="submit_button" type="submit" onclick="actualizar()">Actualizar</button>
+	<input type="button" onclick="location.href='vista.html';" value="Regresar"/>
+  </form>
+</body>
+</html>

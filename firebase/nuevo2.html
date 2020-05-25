@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ver usuarios</title>
+</head>
+<body>
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase.js"></script>
+<script>
+  // Your web app's Firebase configuration
+	var firebaseConfig = {
+    apiKey: "AIzaSyD3Khb4muOpFDCMtUTEczMUTpDDz-c-Al8",
+    authDomain: "testchristianc.firebaseapp.com",
+    databaseURL: "https://testchristianc.firebaseio.com",
+    projectId: "testchristianc",
+    storageBucket: "testchristianc.appspot.com",
+    messagingSenderId: "348412687094",
+    appId: "1:348412687094:web:93d7149a7e3f6ad02db2d7"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+var refBD= firebase.database().ref().child('usuarios');
+
+refBD.on('value',gotData,errData);
+
+function gotData(data){
+	var users=data.val();
+	var keys= Object.keys(users);
+	for (var i = 0; i < keys.length; i++) {
+		var k= keys[i];
+		var correo=users[k].correo;
+		var nombre=users[k].nombre;
+		var telefono=users[k].telefono;
+
+		var tBody= document.getElementById('dataTable').lastElementChild;
+		var tr1= document.createElement('tr');
+		tBody.appendChild(tr1);
+		var dato1= document.createElement('td');
+		dato1.innerText=nombre;
+		tr1.appendChild(dato1);
+		var dato2= document.createElement('td');
+		dato2.innerText=correo;
+		tr1.appendChild(dato2);
+		var dato3= document.createElement('td');
+		dato3.innerText=telefono;
+		tr1.appendChild(dato3);
+	}
+}
+
+function errData (err) {
+	console.log('Error');
+	console.log(err);
+}
+</script>
+<table id="dataTable">
+	<thead>
+		<th>Nombre</th>
+		<th>Correo</th>
+		<th>telefono</th>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>La placita </title>
+  </head>
+  <body>
+    <h1 id="holaMundo"></h1>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+     apiKey: "AIzaSyCv4qk20_b3l7J4G_7T9zWh5zkkCHQtsQ4",
+      authDomain: "tareafb-73d99.firebaseapp.com",
+      databaseURL: "https://tareafb-73d99.firebaseio.com",
+      projectId: "tareafb-73d99",
+      storageBucket: "tareafb-73d99.appspot.com",
+      messagingSenderId: "349891547982",
+      appId: "1:349891547982:web:2cdaa29158414d285f041f"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  var holaMundo = document.getElementById('holaMundo');
+  //var referencia = firebase.database().ref('users').child('id-1').child('nombre');
+  //var referencia = firebase.database().ref('users/id-1/correo');
+  //referencia.on('value',snap => holaMundo.innerText = snap.val());
+
+  var referencia = firebase.database().ref('Guisados');
+  var obj = {
+    cantidad:"500 gr",
+    nombre:"papa",
+    stock:"4"
+  };
+  referencia.set(obj);
+
+</script>
+
+
+  </body>
+</html>

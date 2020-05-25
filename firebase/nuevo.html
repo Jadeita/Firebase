@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nuevo Guisado</title>
+</head>
+<body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+	var firebaseConfig = {
+		apiKey: "AIzaSyCv4qk20_b3l7J4G_7T9zWh5zkkCHQtsQ4",
+		 authDomain: "tareafb-73d99.firebaseapp.com",
+		 databaseURL: "https://tareafb-73d99.firebaseio.com",
+		 projectId: "tareafb-73d99",
+		 storageBucket: "tareafb-73d99.appspot.com",
+		 messagingSenderId: "349891547982",
+		 appId: "1:349891547982:web:2cdaa29158414d285f041f"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  //Guardando la info en la BD de FireBase
+// crear referencia a la BD
+var dataDB= firebase.database().ref('Guisados').push();
+
+function enviar()
+{
+	var cantidad= document.getElementById('cantidad');
+	var nombre= document.getElementById('nombre');
+	var stock= document.getElementById('stock');
+	dataDB.set({
+			cantidad: cantidad.value,
+			nombre: nombre.value,
+			stock: stock.value
+		});
+	alert('Guisado agregado correctamente');
+}
+
+</script>
+<h1>Agregar un guisado</h1>
+<form action="" method="post">
+	<input type="text" name="cantidad" id="cantidad" placeholder="Peso del Guisado"> <br> <br>
+	<input type="nombre" name="nombre" id="nombre" placeholder="Nombre de Guisado"> <br> <br>
+	<input type="stock" name="stock" id="stock" maxlength="10" placeholder="Cantidad en Stock"> <br> <br>
+	<button id="submit_button" type="submit" onclick="enviar()">Guardar</button>
+	<input type="button" onclick="location.href='vista.html';" value="Regresar"/>
+</form>
+
+</body>
+</html>
