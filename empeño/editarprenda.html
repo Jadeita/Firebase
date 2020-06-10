@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Editar Prenda</title>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!--<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script> -->
+</head>
+<body>
+	<h1 id="holaMundo"></h1>
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script>
+  // Your web app's Firebase configuration
+	var firebaseConfig = {
+		apiKey: "AIzaSyCv4qk20_b3l7J4G_7T9zWh5zkkCHQtsQ4",
+		 authDomain: "tareafb-73d99.firebaseapp.com",
+		 databaseURL: "https://tareafb-73d99.firebaseio.com",
+		 projectId: "tareafb-73d99",
+		 storageBucket: "tareafb-73d99.appspot.com",
+		 messagingSenderId: "349891547982",
+		 appId: "1:349891547982:web:2cdaa29158414d285f041f"
+	   };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+// Se conecta con la base de datos de Firebase
+var dataDB = firebase.database().ref('Prendas');
+
+ var userId= window.name;
+
+    var clave, descripcion, valor;
+    var Prenda={};
+
+    // Buscamos el artículo.
+    dataDB.child(userId).once('value',function(datos)
+    {
+        prenda=datos.val();
+
+				clave= prenda.clave;
+        descripcion= prenda.descripcion;
+        valor= prenda.valor;
+
+				$('#clave').val(clave);
+        $('#descripcion').val(descripcion);
+        $('#valor').val(valor);
+    });
+
+
+
+function actualizar() {
+  // Se asigna a una variable cada elemento input con su ID
+var clave = document.getElementById('clave');
+var descripcion = document.getElementById('descripcion');
+var valor = document.getElementById('valor');
+
+dataDB.child(userId).update({
+
+  	clave: clave.value,
+		descripcion: descripcion.value,
+		valor: valor.value,
+	});
+
+    alert('Prenda actualizada');
+}
+</script>
+<style>
+
+body {
+  background-image: url('prenda3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.button {
+  background-color: #c79376;
+  border-radius: 4px;
+  color: white;
+  padding: 5px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+div {
+   position: absolute;
+   right: 200px;
+	 top: 100px;
+}
+</style>
+
+<div>
+<center>
+<h1 style="font-family: 'Ubuntu', sans-serif; font-size: 100px; color:#cb006d; text-shadow: 0.1em 0.1em 0.1em black">Editar Prenda</h1>
+
+  <form action="" method="post">
+
+
+    <input id="clave" style="font-size: 30px" class="input" type="text" value="" placeholder="clave" required /><br />
+    <input id="descripcion"  style="font-size: 30px" class="input" type="text" value="" placeholder="descripcion" required /><br />
+    <input id="valor" style="font-size: 30px" class="input" type="valor" value="" placeholder="valor" required /><br />
+  <button id="submit_button" class="button" type="submit" onclick="actualizar()">Actualizar</button>
+	<input type="button" class="button" onclick="location.href='vistaprenda.html';" value="Regresar"/>
+  </form>
+</center>
+</div>
+</body>
+</html>

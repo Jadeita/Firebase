@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css2?family=Vast+Shadow&display=swap" rel="stylesheet">
+<title>Nueva Prenda</title>
+</head>
+<body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+var firebaseConfig = {
+	apiKey: "AIzaSyCv4qk20_b3l7J4G_7T9zWh5zkkCHQtsQ4",
+	authDomain: "tareafb-73d99.firebaseapp.com",
+	databaseURL: "https://tareafb-73d99.firebaseio.com",
+	projectId: "tareafb-73d99",
+	storageBucket: "tareafb-73d99.appspot.com",
+	messagingSenderId: "349891547982",
+	appId: "1:349891547982:web:2cdaa29158414d285f041f"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+  //Guardando la info en la BD de FireBase
+// crear referencia a la BD
+var dataDB= firebase.database().ref('Prendas').push();
+
+function enviar()
+{
+	var descripcion= document.getElementById('clave');
+	var descripcion= document.getElementById('descripcion');
+	var valor= document.getElementById('valor');
+
+	dataDB.set({
+		  clave: clave.value,
+			descripcion: descripcion.value,
+			valor: valor.value
+		});
+	alert('Prenda agregada correctamente');
+}
+
+</script>
+<style>
+
+body {
+  background-image: url('prenda2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.button {
+  background-color: #cb006d;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.button2 {
+  background-color: #c79376;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+}
+
+</style>
+<center>
+<h1 style="font-family: 'Ubuntu', sans-serif; font-size: 100px; color:#cb006d; text-shadow: 0.1em 0.1em 0.1em black">Agregar una prenda</h1>
+<form action="" method="post">
+	<input type="text" style="font-size: 30px" name="clave" id="clave" placeholder="Clave de la prenda"> <br> <br>
+	<input type="text" style="font-size: 30px" name="descripcion" id="descripcion" placeholder="Descripcion de la prenda"> <br> <br>
+	<input type="valor"  style="font-size: 30px" name="valor" id="valor" placeholder="Precio de la prenda"> <br> <br>
+	<button id="submit_button" class="button" type="submit" onclick="enviar()">Guardar</button>
+	<input type="button" class="button2" onclick="location.href='vistaprenda.html';" value="Regresar"/>
+</form>
+</center>
+
+</body>
+</html>

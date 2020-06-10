@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Agregar Cliente</title>
+</head>
+<body>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+	var firebaseConfig = {
+		apiKey: "AIzaSyCv4qk20_b3l7J4G_7T9zWh5zkkCHQtsQ4",
+		 authDomain: "tareafb-73d99.firebaseapp.com",
+		 databaseURL: "https://tareafb-73d99.firebaseio.com",
+		 projectId: "tareafb-73d99",
+		 storageBucket: "tareafb-73d99.appspot.com",
+		 messagingSenderId: "349891547982",
+		 appId: "1:349891547982:web:2cdaa29158414d285f041f"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+  //Guardando la info en la BD de FireBase
+// crear referencia a la BD
+var dataDB= firebase.database().ref('Clientes').push();
+
+function enviar()
+{
+	var apellido= document.getElementById('apellido');
+	var clave= document.getElementById('clave');
+	var nombre= document.getElementById('nombre');
+	var telefono= document.getElementById('telefono');
+	dataDB.set({
+			apellido: apellido.value,
+			clave: clave.value,
+			nombre: nombre.value,
+			telefono: telefono.value
+		});
+	alert('Cliente agregado correctamente');
+}
+
+</script>
+<style>
+
+body {
+  background-image: url('cliente3.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.button {
+  background-color: #c79376;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+}
+
+</style>
+<center>
+<h1 style="font-family: 'Ubuntu', sans-serif; font-size: 100px; color:#15545b; text-shadow: 0.1em 0.1em 0.1em white">Agregar un Cliente</h1>
+<form action="" method="post">
+	<input type="text"  style="font-size: 30px" name="apellido" id="apellido" placeholder="Apellido"> <br> <br>
+	<input type="text" style="font-size: 30px" name="clave" id="clave" placeholder="Clave"> <br> <br>
+	<input type="nombre" style="font-size: 30px" name="nombre" id="nombre" placeholder="Nombre "> <br> <br>
+	<input type="telefono" style="font-size: 30px"  name="telefono" id="telefono" maxlength="10" placeholder="Telefono"> <br> <br>
+	<button id="submit_button" class="button" type="submit" onclick="enviar()">Guardar</button>
+	<input type="button" class="button" onclick="location.href='clientesvista.html';" value="Regresar"/>
+</form>
+</center>
+
+</body>
+</html>

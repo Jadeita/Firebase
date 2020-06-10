@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title> Hacer Empeno </title>
+</head>
+<body>
+<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+var firebaseConfig = {
+	apiKey: "AIzaSyCv4qk20_b3l7J4G_7T9zWh5zkkCHQtsQ4",
+	authDomain: "tareafb-73d99.firebaseapp.com",
+	databaseURL: "https://tareafb-73d99.firebaseio.com",
+	projectId: "tareafb-73d99",
+	storageBucket: "tareafb-73d99.appspot.com",
+	messagingSenderId: "349891547982",
+	appId: "1:349891547982:web:2cdaa29158414d285f041f"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+
+// Se conecta con la base de datos de Firebase
+var dataDB = firebase.database().ref('Clientes');
+var dataDBP = firebase.database().ref('Prendas');
+var dataE = firebase.database().ref('Empeno_Prenda');
+
+
+var clientes={};
+var prendas={};
+dataDB.on('value', function(datos)
+{
+  //$('usuarios').children().remove();
+  clientes=datos.val();
+  var select= document.getElementById('clientes');
+  $.each(clientes, function(indice,valor)
+  {
+   var option= document.createElement("option");
+   option.setAttribute("value", indice);
+   option.setAttribute("label", valor.nombre);
+   select.appendChild(option);
+ });
+}, function(objetoError){
+  console.log('Error de lectura:'+objetoError.code);
+});
+
+getProductos();
+
+function getProductos()
+{
+  dataDBP.on('value', function(datos)
+  {
+  //$('usuarios').children().remove();
+  prendas=datos.val();
+  for (var i = 1; i <=3; i++) {
+    var select= document.getElementById('product_' + i);
+    $.each(prendas, function(indice,valor)
+    {
+     var option= document.createElement("option");
+     option.setAttribute("value", indice);
+     option.setAttribute("label", valor.descripcion);
+     select.appendChild(option);
+   });
+  }
+});
+}
+
+var key=[];
+function getPrecio(productx, preciox)
+{
+  document.getElementById(preciox).value="";
+  var prenda=dataDBP.child(productx);
+  prenda.on('value', function (data){
+    var prod=data.val();
+		var pre=prod.valor;
+		$('#'+preciox).val(pre);
+    key.push(prod.clave);
+
+  });
+ console.log(key);
+}
+
+/*function calcImporte(cant, precio, importe)
+{
+  document.getElementById(importe).value="";
+  var imp=cant * precio;
+  document.getElementById(importe).value=imp;
+}*/
+
+function guardarVenta() {
+  // Extraer la clave del usuario
+  var user = document.getElementById('clientes');
+  // Extraer la fecha del sistema
+  var d = new Date();
+  var m= d.getMonth()+1;
+  var mes= (m<10)? '0'+m:m;
+  var fechag =  d.getFullYear() + "-" + mes + "-" + d.getDate();
+  //Guardando la venta
+  dataDB.child(user.value).child('empeno').push({
+    fecha: fechag
+  });
+  alert('Empeno registrado');
+}
+
+function calcularTotal(idventa)
+{
+    var user = document.getElementById('clientes');
+    var query = dataDB.child(user.value).child('empeno').limitToLast(1);
+    query.on('child_added', function (snap)
+    {
+     document.getElementById(idventa).value =snap.key;
+    });
+    var id=document.getElementById(idventa).value;
+    var pzas=0;
+    var total=0;
+    for (var i = 1; i <=3; i++) {
+      var prod=document.getElementById('product_' + i).value;
+      //var imp=document.getElementById('importe_' + i).value;
+
+      if(prod!=0)
+      {
+
+        total+=parseInt(document.getElementById('precio_' + i).value);
+        dataE.push({
+            clave_prenda: key[i-1],
+            clave_emp: id
+        });
+
+      }
+    }
+
+
+    //Actualizando el total y pzas en la venta
+    alert('Su total es de : ' + total);
+
+}
+
+</script>
+<style>
+
+body {
+  background-image: url('empeno.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.button {
+  background-color: #c79376;
+  border-radius: 4px;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+}
+
+</style>
+<CENTER>
+<h1 style="font-family: 'Ubuntu', sans-serif; font-size: 100px; color:#15545b; text-shadow: 0.1em 0.1em 0.1em white">Empenos</h1>
+<form action="" method="post">
+  <input type="hidden" id="idVenta">
+  <select id="clientes" style="font-size: 30px">
+    <option value="0" style="font-size: 30px">Elige Cliente</option>
+  </select>
+  <button id="generarVenta" type="button" style="font-size: 30px"  onclick="guardarVenta()">Iniciar empeno</button>
+  <h3>Detalles del empeno</h3>
+  <table>
+    <thead>
+      <th style="font-size: 30px" >Prenda</th>
+      <!--<th>Cantidad</th>-->
+      <th style="font-size: 30px">Valor</th>
+      <!--<th>Importe</th>-->
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <select id="product_1" onchange="getPrecio(this.value,'precio_1')">
+            <option value="0">Elige una prenda</option>
+          </select>
+        </td>
+        <!--<td>
+          <input type="number" id="cant_1" onkeypress="if(event.keyCode==13)calcImporte(this.value, precio_1.value,'importe_1')">
+        </td>-->
+        <td>
+          <input type="number" id="precio_1">
+        </td>
+        <!--<td>
+          <input type="number" id="importe_1">
+        </td>-->
+      </tr>
+      <tr>
+        <td>
+          <select id="product_2" onchange="getPrecio(this.value,'precio_2')">
+            <option value="0">Elige una prenda</option>
+          </select>
+        </td>
+        <!--<td>
+          <input type="number" id="cant_2" onkeypress="if(event.keyCode==13)calcImporte(this.value, precio_2.value,'importe_2')">
+        </td>-->
+        <td>
+          <input type="number" id="precio_2">
+        </td>
+        <!--<td>
+          <input type="number" id="importe_2">
+        </td>-->
+      </tr>
+      <tr>
+        <td>
+          <select id="product_3" onchange="getPrecio(this.value,'precio_3')">
+            <option value="0">Elige una prenda</option>
+          </select>
+        </td>
+        <!--<td>
+          <input type="number" id="cant_3" onkeypress="if(event.keyCode==13)calcImporte(this.value, precio_3.value,'importe_3')">
+        </td>-->
+        <td>
+          <input type="number" id="precio_3">
+        </td>
+        <!--<td>
+          <input type="number" id="importe_3">
+        </td>-->
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <div>
+    <button id="finalizar" class="button" type="button" onclick="calcularTotal('idVenta')">Guardar empeno</button>
+
+		<input type="button" class="button" onclick="location.href='inicio.html';" value="Regresar"/>
+  </div>
+</form>
+</CENTER>
+</body>
+</html>

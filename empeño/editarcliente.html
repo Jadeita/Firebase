@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Editar Cliente</title>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<!--<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script> -->
+</head>
+<body>
+	<h1 id="holaMundo"></h1>
+	<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-app.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase-database.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <script>
+  // Your web app's Firebase configuration
+	var firebaseConfig = {
+		apiKey: "AIzaSyCv4qk20_b3l7J4G_7T9zWh5zkkCHQtsQ4",
+		 authDomain: "tareafb-73d99.firebaseapp.com",
+		 databaseURL: "https://tareafb-73d99.firebaseio.com",
+		 projectId: "tareafb-73d99",
+		 storageBucket: "tareafb-73d99.appspot.com",
+		 messagingSenderId: "349891547982",
+		 appId: "1:349891547982:web:2cdaa29158414d285f041f"
+	   };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+// Se conecta con la base de datos de Firebase
+var dataDB = firebase.database().ref('Clientes');
+
+ var userId= window.name;
+
+    var apellido,clave, nombre, telefono;
+    var Cliente={};
+
+    // Buscamos el artículo.
+    dataDB.child(userId).once('value',function(datos)
+    {
+        cliente=datos.val();
+
+        apellido= cliente.apellido;
+				clave= cliente.clave;
+        nombre= cliente.nombre;
+        telefono= cliente.telefono;
+
+
+        $('#apellido').val(apellido);
+				$('#clave').val(clave);
+        $('#nombre').val(nombre);
+        $('#telefono').val(telefono);
+
+    });
+
+
+
+function actualizar() {
+  // Se asigna a una variable cada elemento input con su ID
+var apellido = document.getElementById('apellido');
+var clave = document.getElementById('clave');
+var nombre = document.getElementById('nombre');
+var telefono = document.getElementById('telefono');
+
+
+dataDB.child(userId).update({
+		apellido: apellido.value,
+		clave: clave.value,
+		nombre: nombre.value,
+    telefono: telefono.value,
+	});
+
+    alert('Cliente actualizada');
+}
+</script>
+<style>
+
+body {
+  background-image: url('cliente2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.button {
+  background-color: #c79376;
+  border-radius: 4px;
+  color: white;
+  padding: 5px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+div {
+   position: absolute;
+   right: 200px;
+	 top: 100px;
+}
+
+</style>
+
+
+<div>
+<h1 style="font-family: 'Ubuntu', sans-serif; font-size: 100px; color:#15545b; text-shadow: 0.1em 0.1em 0.1em white">Editar Cliente</h1>
+
+  <form action="" method="post">
+
+<center>
+    <input id="apellido" style="font-size: 30px" class="input" type="text" value="" placeholder="apellido" required /><br />
+		<input id="clave" style="font-size: 30px" class="input" type="text" value="" placeholder="clave" required /><br />
+    <input id="nombre" style="font-size: 30px" class="input" type="nombre" value="" placeholder="nombre" required /><br />
+    <input id="telefono" style="font-size: 30px" class="input" type="telefono" value="" placeholder="telefono" required /><br />
+<br></br>
+  <button id="submit_button" class="button" type="submit" onclick="actualizar()">Actualizar</button>
+	<input type="button" class="button" onclick="location.href='clientesvista.html';" value="Regresar"/>
+  </form>
+</center>
+</div>
+</body>
+</html>
